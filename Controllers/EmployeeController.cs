@@ -149,6 +149,7 @@ namespace MVCProj.Controllers
         {
             try
             {
+                DeleteEmployee(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
