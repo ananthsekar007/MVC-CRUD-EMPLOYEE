@@ -68,6 +68,19 @@ namespace MVCProj.Controllers
             return employee;
         }
 
+        void DeleteEmployee(int id)
+        {
+            _Connection.Open();
+            SqlCommand cmd = new SqlCommand("DELETE_EMPLOYEE", _Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@EmpID", id);
+
+            cmd.ExecuteNonQuery();
+
+            _Connection.Close();
+        }
+
         // GET: EmployeeController
         public ActionResult Index()
         {
@@ -125,6 +138,7 @@ namespace MVCProj.Controllers
         // GET: EmployeeController/Delete/5
         public ActionResult Delete(int id)
         {
+            DeleteEmployee(id);
             return View();
         }
 
