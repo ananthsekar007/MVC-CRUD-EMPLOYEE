@@ -43,6 +43,31 @@ namespace MVCProj.Controllers
             return Employees;
         }
 
+        EmployeeModel GetEmployee(int id)
+        {
+            _Connection.Open();
+            SqlCommand cmd = new SqlCommand("GET_EMPLOYEE", _Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@EmpID", id);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            EmployeeModel employee = new();
+
+            while (reader.Read())
+            {
+
+                employee.Id = (int)reader["id"];
+                employee.Name = (string)reader["name"];
+                employee.Department = (string)reader["department"];
+                employee.Salary = (decimal)reader["salary"];
+                employee.Dob = (DateTime)reader["dob"];
+                employee.BaseLocation = (string)reader["base_location"];
+            }
+            return employee;
+        }
+
         // GET: EmployeeController
         public ActionResult Index()
         {
@@ -52,7 +77,7 @@ namespace MVCProj.Controllers
         // GET: EmployeeController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(GetEmployee(id));
         }
 
         // GET: EmployeeController/Create
